@@ -7,6 +7,7 @@ class Menu extends Phaser.Scene {
         this.load.audio('sfx_select', './assets/blip_select12.wav');
         this.load.audio('sfx_explosion', './assets/explosion38.wav');
         this.load.audio('sfx_rocket', './assets/rocket_shot.wav');
+        this.load.image('starfield', './assets/starfield.png')
     }
     create () {
         let menuConfig = {
@@ -21,7 +22,8 @@ class Menu extends Phaser.Scene {
             },
             fixedWidth: 0
         }
-
+        //add a background
+        this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
         //show menu text
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding, 'ROCKET PATROL', menuConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2, 'User <--> arrows to move & (F) to fire', menuConfig).setOrigin(0.5);
