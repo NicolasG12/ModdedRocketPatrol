@@ -6,7 +6,9 @@ class Play extends Phaser.Scene {
     preload() {
         // load images/tile sprites
         this.load.image('rocket', './assets/rocket.png');
+        this.load.image('laser', './assets/LaserBlast.png');
         this.load.image('spaceship', './assets/spaceship.png');
+        this.load.image('ufo', './assets/UFO.png');
         this.load.image('starfield', './assets/starfield.png');
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
     }
@@ -22,9 +24,7 @@ class Play extends Phaser.Scene {
         this.add.rectangle(0, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
         //add rocket
-        this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height 
-                                  - borderUISize - borderPadding, 'rocket'
-                                  ).setOrigin(0.5, 0);
+        this.p1Rocket = new Cannon(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket').setOrigin(0.5, 0);
         //add spaceships
         this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, 
                                     borderUISize*4, 'spaceship', 0, 
@@ -35,6 +35,7 @@ class Play extends Phaser.Scene {
         this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 
                                     + borderPadding*4, 'spaceship', 0, 
                                     10).setOrigin(0, 0);
+        this.ship04 = new BonusSpaceShip(this, game.config.width + borderUISize*9, borderUISize*7 + borderPadding*6, 'ufo', 0, 50).setOrigin(0, 0);
         //define keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
@@ -86,6 +87,7 @@ class Play extends Phaser.Scene {
             this.ship01.update();
             this.ship02.update();
             this.ship03.update();
+            this.ship04.update();
         }
         //check collisions
         if(this.checkCollision(this.p1Rocket, this.ship03)) {
