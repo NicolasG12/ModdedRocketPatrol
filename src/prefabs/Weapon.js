@@ -3,9 +3,9 @@ class Cannon extends Phaser.GameObjects.Sprite {
         super(scene, x, y, texture, frame);
 
         scene.add.existing(this);
-        //this.isFiring = false;
+        this.isFiring = false;
         this.moveSpeed = 2;
-        //this.sfxRocket = scene.sound.add('sfx_rocket');
+        this.sfxRocket = scene.sound.add('sfx_rocket');
     }
 
     update() {
@@ -19,24 +19,25 @@ class Cannon extends Phaser.GameObjects.Sprite {
             }
         }
         //fire button
-        if(Phaser.Input.Keyboard.JustDown(keyF)) {
-            this.laser = new Laser(this.scene, this.x, this.y, 'laser', 0).setOrigin(0.5, 0);
-            this.laser.update();
+        if(Phaser.Input.Keyboard.JustDown(keyF) && !this.isFiring) {
+            this.isFiring = true;
             //this.sfxRocket.play();
         }
-    }
         
+        if(this.isFiring && this.y >= borderUISize * 3 + borderPadding) {
+            this.y -= this.moveSpeed;
+        }
         //reset on miss
-    //     if(this.y <= borderUISize * 3 + borderPadding) {
-    //         this.isFiring = false;
-    //         this.y = game.config.height - borderUISize - borderPadding;
-    //     }
-    // }
+        if(this.y <= borderUISize * 3 + borderPadding) {
+            this.isFiring = false;
+            this.y = game.config.height - borderUISize - borderPadding;
+        }
+    }
     
-    // reset() {
-    //     this.isFiring = false;
-    //     this.y = game.config.height - borderUISize - borderPadding;
-    // }
+    reset() {
+        this.isFiring = false;
+        this.y = game.config.height - borderUISize - borderPadding;
+    }
 }
 
 class Laser extends Phaser.GameObjects.Sprite {

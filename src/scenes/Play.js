@@ -76,6 +76,9 @@ class Play extends Phaser.Scene {
     }
 
     update() {
+        //update the timer
+        this.remaining = this.clock.getRemainingSeconds();
+        this.timer.text = Math.floor(this.remaining);
         //check key input for restart
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.restart();
@@ -104,8 +107,10 @@ class Play extends Phaser.Scene {
             this.p1Rocket.reset();
             this.shipExplode(this.ship01);
         }
-        this.remaining = this.clock.getRemainingSeconds();
-        this.timer.text = Math.floor(this.remaining);
+        if(this.checkCollision(this.p1Rocket, this.ship04)) {
+            this.p1Rocket.reset();
+            this.shipExplode(this.ship04);
+        }
     }
 
     checkCollision(rocket, ship) {
@@ -135,5 +140,7 @@ class Play extends Phaser.Scene {
         this.p1Score += ship.points;
         this.scoreLeft.text = this.p1Score;
         this.sound.play('sfx_explosion');
+        //update timer
+        this.clock.delay += 2000;
     }
 }
