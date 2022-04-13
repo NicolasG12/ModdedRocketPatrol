@@ -66,11 +66,13 @@ class Play extends Phaser.Scene {
         this.gameOver = false;
         //60-second play clock
         scoreConfig.fixedWidth = 0;
+        this.timer = this.add.text(game.config.width - borderUISize*3, borderUISize + borderPadding*2, game.settings.gameTimer / 1000, scoreConfig);
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or <- for Menu', scoreConfig).setOrigin(0.5);
             this.gameOver = true;
         }, null, this);
+        
     }
 
     update() {
@@ -102,6 +104,8 @@ class Play extends Phaser.Scene {
             this.p1Rocket.reset();
             this.shipExplode(this.ship01);
         }
+        this.remaining = this.clock.getRemainingSeconds();
+        this.timer.text = Math.floor(this.remaining);
     }
 
     checkCollision(rocket, ship) {
