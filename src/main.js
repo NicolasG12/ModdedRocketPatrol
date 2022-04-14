@@ -12,5 +12,5 @@ let borderUISize = game.config.height / 15;
 let borderPadding = borderUISize / 3;
 
 //reserve keboard vars
-let keyF, keyR, keyLEFT, keyRIGHT;
-
+let keyW, keyA, keyD, keyR, keyLEFT, keyRIGHT, keyUP;
+//let pointer;
