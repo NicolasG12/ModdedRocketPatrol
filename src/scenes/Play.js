@@ -24,22 +24,37 @@ class Play extends Phaser.Scene {
         this.add.rectangle(0, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
         //add the keys
-        keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-        keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-        //add rocket 1
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+        //initialize score
+        let scoreConfig = {
+            fontFamily: 'Courier',
+            fontSize: '18px',
+            backgroundColor: '#F3B141',
+            color: '#843605',
+            align: 'left',
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 130
+        }
+        this.p1Score = 0;
+        this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, "Player 1: " + this.p1Score, scoreConfig);
+        //add rocket 1
+        keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         this.p1Rocket = new Cannon(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket', 0
                                     , keyLEFT, keyRIGHT, keyUP).setOrigin(0.5, 0);
         //add rocket 2
+        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         if(game.settings.numPlayers == 2) {
             this.p2Rocket = new Cannon(this, game.config.width - borderUISize*6, game.config.height - borderUISize - borderPadding, 'rocket', 0, 
                                     keyA, keyD, keyW).setOrigin(0.5, 0);
             this.p2Score = 0;
-            this.scoreRight = this.add.text(game.config.width - borderUISize*5, borderUISize + borderPadding*2, this.p2Score, scoreConfig);
+            this.scoreRight = this.add.text(game.config.width - borderUISize*5, borderUISize + borderPadding*2, "Player 2: " + this.p2Score, scoreConfig);
         }
         //add spaceships
         this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, 
@@ -52,21 +67,18 @@ class Play extends Phaser.Scene {
                                     + borderPadding*4, 'spaceship', 0, 
                                     10).setOrigin(0, 0);
         this.ship04 = new BonusSpaceShip(this, game.config.width + borderUISize*9, borderUISize*7 + borderPadding*6, 'ufo', 0, 50).setOrigin(0, 0);
-        //pointer = this.input.activePointer;
         //animation config
         this.anims.create({
             key: 'explode',
-            frames: this.anims.generateFrameNumbers('explosion', {start: 0, end: 9, frist: 0}),
+            frames: this.anims.generateFrameNumbers('explosion', {start: 0, end: 9, first: 0}),
             frameRate: 30
         });
-        //initialize score
-        this.p1Score = 0;
-        this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
+
         // GAME OVER flag
         this.gameOver = false;
         //60-second play clock
         scoreConfig.fixedWidth = 0;
-        //this.timer = this.add.text(game.config.width - borderUISize*3, borderUISize + borderPadding*2, game.settings.gameTimer / 1000, scoreConfig);
+        this.timer = this.add.text(game.config.width/2, borderUISize + borderPadding*2, game.settings.gameTimer / 1000, scoreConfig);
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or <- for Menu', scoreConfig).setOrigin(0.5);
@@ -78,7 +90,7 @@ class Play extends Phaser.Scene {
     update() {
         //update the timer
         this.remaining = this.clock.getRemainingSeconds();
-        //this.timer.text = Math.floor(this.remaining);
+        this.timer.text = Math.floor(this.remaining);
         //check key input for restart
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.restart();
@@ -161,11 +173,11 @@ class Play extends Phaser.Scene {
         if(rocket === this.p1Rocket){
         //score add and repaint
             this.p1Score += ship.points;
-            this.scoreLeft.text = this.p1Score;
+            this.scoreLeft.text = "Player 1: " + this.p1Score;
         }
         else {
             this.p2Score += ship.points;
-            this.scoreRight.text = this.p2Score;
+            this.scoreRight.text = "Player 2: " + this.p2Score;
         }
         this.sound.play('sfx_explosion');
         //update timer

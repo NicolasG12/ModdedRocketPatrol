@@ -1,4 +1,9 @@
 //Nicolas Guevara Modded Rocket Patrol
+//Create a new spaceship (20)
+//Implement a simultaneous two-player mode (30)
+//Implement a new time/scoring mechanism that adds time to the clock (20)
+//Create and implement a new weapon (20)
+//Create a new title screen (10)
 let config = {
     type: Phaser.AUTO,
     width: 640,
