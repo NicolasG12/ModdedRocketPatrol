@@ -3,7 +3,8 @@
 //Implement a simultaneous two-player mode (30)
 //Implement a new time/scoring mechanism that adds time to the clock (20)
 //Create and implement a new weapon (20)
-//Create a new title screen (10)
+//Parallax scrolling (10)
+//Implement mouse control (20)
 let config = {
     type: Phaser.AUTO,
     width: 640,
@@ -18,4 +19,4 @@ let borderPadding = borderUISize / 3;
 
 //reserve keboard vars
 let keyW, keyA, keyD, keyR, keyLEFT, keyRIGHT, keyUP;
-//let pointer;
+let pointer;

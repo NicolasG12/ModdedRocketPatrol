@@ -23,7 +23,9 @@ class Cannon extends Phaser.GameObjects.Sprite {
         }
         //fire button
         if(Phaser.Input.Keyboard.JustDown(this.fireKey) && !this.isFiring) {
-            this.isFiring = true;
+            setTimeout(() => {
+                this.isFiring = true;
+            }, 1000);
             //this.sfxRocket.play();
         }
         

@@ -18,6 +18,16 @@ class Play extends Phaser.Scene {
         this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
         //green UI background
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
+        //add spaceships
+        this.ship01 = new Spaceship(this,game.config.width + borderUISize*9, borderUISize*7 + borderPadding*6, 'spaceship', 0, 
+                30).setOrigin(0, 0);
+        this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, 
+                borderUISize*5 + borderPadding*2, 'spaceship',
+                0, 20).setOrigin(0, 0);
+        this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 
+                + borderPadding*4, 'spaceship', 0, 
+                10).setOrigin(0, 0);
+        this.ship04 = new BonusSpaceShip(this,  game.config.width + borderUISize*6, borderUISize*4, 'ufo', 0, 50).setOrigin(0, 0);
         //white borders
         this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
@@ -28,7 +38,7 @@ class Play extends Phaser.Scene {
         //initialize score
         let scoreConfig = {
             fontFamily: 'Courier',
-            fontSize: '18px',
+            fontSize: '12px',
             backgroundColor: '#F3B141',
             color: '#843605',
             align: 'left',
@@ -56,17 +66,6 @@ class Play extends Phaser.Scene {
             this.p2Score = 0;
             this.scoreRight = this.add.text(game.config.width - borderUISize*5, borderUISize + borderPadding*2, "Player 2: " + this.p2Score, scoreConfig);
         }
-        //add spaceships
-        this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, 
-                                    borderUISize*4, 'spaceship', 0, 
-                                    30).setOrigin(0, 0);
-        this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, 
-                                    borderUISize*5 + borderPadding*2, 'spaceship',
-                                    0, 20).setOrigin(0, 0);
-        this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 
-                                    + borderPadding*4, 'spaceship', 0, 
-                                    10).setOrigin(0, 0);
-        this.ship04 = new BonusSpaceShip(this, game.config.width + borderUISize*9, borderUISize*7 + borderPadding*6, 'ufo', 0, 50).setOrigin(0, 0);
         //animation config
         this.anims.create({
             key: 'explode',
@@ -181,6 +180,6 @@ class Play extends Phaser.Scene {
         }
         this.sound.play('sfx_explosion');
         //update timer
-        this.clock.delay += 2000;
+        this.clock.delay += 1500;
     }
 }
