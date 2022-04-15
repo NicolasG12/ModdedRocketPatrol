@@ -57,10 +57,10 @@ class Play extends Phaser.Scene {
         this.p1Rocket = new Cannon(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket', 0
                                     , keyLEFT, keyRIGHT, keyUP).setOrigin(0.5, 0);
         //add rocket 2
-        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-        keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         if(game.settings.numPlayers == 2) {
+            keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+            keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+            keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
             this.p2Rocket = new Cannon(this, game.config.width - borderUISize*6, game.config.height - borderUISize - borderPadding, 'rocket', 0, 
                                     keyA, keyD, keyW).setOrigin(0.5, 0);
             this.p2Score = 0;
