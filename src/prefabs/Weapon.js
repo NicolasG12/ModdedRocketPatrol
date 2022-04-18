@@ -1,4 +1,4 @@
-class Cannon extends Phaser.GameObjects.Sprite {
+class DeathStar extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture, frame, left, right, fire) {
         super(scene, x, y, texture, frame);
 
@@ -9,6 +9,7 @@ class Cannon extends Phaser.GameObjects.Sprite {
         this.leftKey = left;
         this.rightKey = right;
         this.fireKey = fire;
+        this.setTexture('deathstar');
     }
 
     update() {
@@ -24,39 +25,36 @@ class Cannon extends Phaser.GameObjects.Sprite {
         //fire button
         if(Phaser.Input.Keyboard.JustDown(this.fireKey) && !this.isFiring) {
             setTimeout(() => {
-                this.isFiring = true;
-            }, 1000);
+                this.y = laserY;
+                this.setTexture('laser');
+            }, 500);
+
+            setTimeout(() => {
+                this.reset();
+            }, 1500);
             //this.sfxRocket.play();
         }
-        
-        if(this.isFiring && this.y >= borderUISize * 3 + borderPadding) {
-            this.y -= this.moveSpeed;
-        }
-        //reset on miss
-        if(this.y <= borderUISize * 3 + borderPadding) {
-            this.isFiring = false;
-            this.y = game.config.height - borderUISize - borderPadding;
-        }
     }
-    
     reset() {
-        this.isFiring = false;
-        this.y = game.config.height - borderUISize - borderPadding;
+        this.y = game.config.height - borderUISize*3;
+        setTimeout(() => {
+            this.setTexture('deathstar');
+        })
+        
     }
 }
 
-class Laser extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, texture, frame) {
-        super(scene, x, y, texture, frame);
+// class Laser extends Phaser.GameObjects.Sprite {
+//     constructor(scene, x, y, texture, frame) {
+//         super(scene, x, y, texture, frame)
 
-        scene.add.existing(this);
-        this.moveSpeed = 2;
-        this.firing = true;
-    }
+//         scene.add.existing(this);
+//     }
+//     update() {
+//         this.;
+//     }
 
-    update() {
-        if(this.firing) {
-            this.y -= this.moveSpeed;
-        }
-    }
-}
+//     reset() {
+//         this.alpha = 0;
+//     }
+// }

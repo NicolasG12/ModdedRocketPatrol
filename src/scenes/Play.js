@@ -5,17 +5,20 @@ class Play extends Phaser.Scene {
 
     preload() {
         // load images/tile sprites
-        this.load.image('rocket', './assets/rocket.png');
-        this.load.image('laser', './assets/LaserBlast.png');
+        // this.load.image('rocket', './assets/rocket.png');
+        this.load.image('deathstar', './assets/01_DeathStar.png');
+        this.load.image('laser', './assets/02_DeathStar.png');
         this.load.image('spaceship', './assets/spaceship.png');
         this.load.image('ufo', './assets/UFO.png');
         this.load.image('starfield', './assets/starfield.png');
+        this.load.image('starfield2' ,'./assets/03_Background.png');
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
     }
 
     create () {
         //place tile sprite
         this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
+        this.starfield2 = this.add.tileSprite(0, 0, 640, 480, 'starfield2').setOrigin(0, 0);
         //green UI background
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
         //add spaceships
@@ -54,15 +57,15 @@ class Play extends Phaser.Scene {
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-        this.p1Rocket = new Cannon(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket', 0
-                                    , keyLEFT, keyRIGHT, keyUP).setOrigin(0.5, 0);
+        let textures = ['deathstar', 'laser']
+        this.p1Rocket = new DeathStar(this, game.config.width/2, game.config.height - borderUISize*3, textures, 0, keyLEFT, keyRIGHT, keyUP).setOrigin(0.5, 0);
+  
         //add rocket 2
         if(game.settings.numPlayers == 2) {
             keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
             keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
             keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-            this.p2Rocket = new Cannon(this, game.config.width - borderUISize*6, game.config.height - borderUISize - borderPadding, 'rocket', 0, 
-                                    keyA, keyD, keyW).setOrigin(0.5, 0);
+            this.p2Rocket = new DeathStar(this, game.config.width - borderUISize*6, game.config.height - borderUISize*3, textures, 0, keyA, keyD, keyW).setOrigin(0.5, 0);
             this.p2Score = 0;
             this.scoreRight = this.add.text(game.config.width - borderUISize*5, borderUISize + borderPadding*2, "Player 2: " + this.p2Score, scoreConfig);
         }
@@ -98,6 +101,7 @@ class Play extends Phaser.Scene {
             this.scene.start("menuScene");
         }
         this.starfield.tilePositionX -= 4;
+        this.starfield2.tilePositionX -= 6;
         if(!this.gameOver) {
             this.p1Rocket.update();
             if(game.settings.numPlayers == 2) {
@@ -147,12 +151,15 @@ class Play extends Phaser.Scene {
     }
 
     checkCollision(rocket, ship) {
-        if(rocket.x < ship.x + ship.width &&
-            rocket.x + rocket.width > ship.x &&
-            rocket.y < ship.y + ship.height &&
-            rocket.height + rocket.y > ship.y) {
-                return true;
-            }
+        // if(rocket.x < ship.x + ship.width &&
+        //     rocket.x + rocket.width > ship.x &&
+        //     rocket.y < ship.y + ship.height &&
+        //     rocket.height + rocket.y > ship.y) {
+        //         return true;
+        //     }
+        if(rocket.x < ship.x + ship.width && rocket.x + rocket.width > ship.x &&rocket.texture.key == 'laser') {
+            return true;
+        }
         else {
             return false;
         }
@@ -161,7 +168,7 @@ class Play extends Phaser.Scene {
     shipExplode(ship, rocket) {
         //temporarily hide ship
         ship.alpha = 0;
-        //create explosiona at ship's position
+        //create explosion at ship's position
         let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
         boom.anims.play('explode');
         boom.on('animationcomplete', () => {
