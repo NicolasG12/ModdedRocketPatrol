@@ -20,4 +20,3 @@ let borderPadding = borderUISize / 3;
 let laserY = game.config.height - borderUISize*11.5;
 //reserve keboard vars
 let keyW, keyA, keyD, keyR, keyLEFT, keyRIGHT, keyUP;
-let pointer;

@@ -27,20 +27,25 @@ class DeathStar extends Phaser.GameObjects.Sprite {
             setTimeout(() => {
                 this.y = laserY;
                 this.setTexture('laser');
+                this.isFiring = true;
             }, 500);
 
             setTimeout(() => {
+                this.setTexture('deathstar');
                 this.reset();
-            }, 1500);
+                this.y = game.config.height - borderUISize*3;
+            }, 1000);
             //this.sfxRocket.play();
         }
     }
     reset() {
-        this.y = game.config.height - borderUISize*3;
-        setTimeout(() => {
-            this.setTexture('deathstar');
-        })
-        
+        this.isFiring = false;
+    }
+
+    firing() {
+        if(this.isFiring) {
+            return true;
+        }
     }
 }
 

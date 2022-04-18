@@ -11,7 +11,7 @@ class Play extends Phaser.Scene {
         this.load.image('spaceship', './assets/spaceship.png');
         this.load.image('ufo', './assets/UFO.png');
         this.load.image('starfield', './assets/starfield.png');
-        this.load.image('starfield2' ,'./assets/03_Background.png');
+        this.load.image('starfield2' ,'./assets/02_Background.png');
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
     }
 
@@ -22,14 +22,15 @@ class Play extends Phaser.Scene {
         //green UI background
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
         //add spaceships
-        this.ship01 = new Spaceship(this,game.config.width + borderUISize*9, borderUISize*7 + borderPadding*6, 'spaceship', 0, 
-                30).setOrigin(0, 0);
+        this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, 
+            borderUISize*5, 'spaceship', 0, 
+            30).setOrigin(0, 0);
         this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, 
-                borderUISize*5 + borderPadding*2, 'spaceship',
-                0, 20).setOrigin(0, 0);
-        this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 
-                + borderPadding*4, 'spaceship', 0, 
-                10).setOrigin(0, 0);
+            borderUISize*6 + borderPadding*2, 'spaceship',
+            0, 20).setOrigin(0, 0);
+        this.ship03 = new Spaceship(this, game.config.width, borderUISize*7 
+            + borderPadding*4, 'spaceship', 0, 
+            10).setOrigin(0, 0);
         this.ship04 = new BonusSpaceShip(this,  game.config.width + borderUISize*6, borderUISize*4, 'ufo', 0, 50).setOrigin(0, 0);
         //white borders
         this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
@@ -157,7 +158,7 @@ class Play extends Phaser.Scene {
         //     rocket.height + rocket.y > ship.y) {
         //         return true;
         //     }
-        if(rocket.x < ship.x + ship.width && rocket.x + rocket.width > ship.x &&rocket.texture.key == 'laser') {
+        if(rocket.x < ship.x + ship.width && rocket.x + rocket.width > ship.x   && rocket.firing()) {
             return true;
         }
         else {
