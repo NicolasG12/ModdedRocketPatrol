@@ -1,4 +1,5 @@
 //Nicolas Guevara Modded Rocket Patrol
+//Approximately 17 hours to complete
 //Create a new spaceship (20)
 //Implement a simultaneous two-player mode (30)
 //Implement a new time/scoring mechanism that adds time to the clock (20)
