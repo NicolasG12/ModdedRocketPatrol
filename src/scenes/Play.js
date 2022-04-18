@@ -152,12 +152,6 @@ class Play extends Phaser.Scene {
     }
 
     checkCollision(rocket, ship) {
-        // if(rocket.x < ship.x + ship.width &&
-        //     rocket.x + rocket.width > ship.x &&
-        //     rocket.y < ship.y + ship.height &&
-        //     rocket.height + rocket.y > ship.y) {
-        //         return true;
-        //     }
         if(rocket.x < ship.x + ship.width && rocket.x + rocket.width > ship.x   && rocket.firing()) {
             return true;
         }
